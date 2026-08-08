@@ -10,11 +10,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Configurar Java 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - name: Executar testes
+
+      - name: Executar testes JUnit e integração
         run: mvn --batch-mode clean test
+
+      - name: Iniciar aplicação para E2E HTTP
+        run: |
+          nohup mvn --batch-mode spring-boot:run > /tmp/etapa9-app.log 2>&1 &
+          echo $! > /tmp/etapa9-app.pid
+          for i in {1..45}; do
+            if curl -fsS http://localhost:8080/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/etapa9-app.log
+          exit 1
+
+      - name: Executar plano HTTP ponta a ponta
+        run: ./scripts/e2e-http.sh
+
+      - name: Encerrar aplicação de teste
+        if: always()
+        run: |
+          if [ -f /tmp/etapa9-app.pid ]; then kill "$(cat /tmp/etapa9-app.pid)" || true; fi
