@@ -4,7 +4,7 @@ import br.com.pi.estoque.model.MovimentacaoEstoque;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface SpringDataMovimentacaoRepository extends JpaRepository<MovimentacaoEstoque, Long> {
+public interface SpringDataMovimentacaoRepository extends JpaRepository<MovimentacaoEstoque, Long> {
     List<MovimentacaoEstoque> findBySkuOrderByDataHoraDesc(String sku);
     List<MovimentacaoEstoque> findAllByOrderByDataHoraDesc();
 }
