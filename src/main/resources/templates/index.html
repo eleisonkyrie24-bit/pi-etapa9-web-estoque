@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Controle de Estoque</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+    <link rel="stylesheet" th:href="@{/css/pages.css}">
+</head>
+<body data-page="dashboard">
+<header class="topbar">
+    <a class="brand" th:href="@{/}">Controle de Estoque</a>
+    <nav class="nav">
+        <a class="active" th:href="@{/}">Início</a>
+        <a th:href="@{/produtos}">Produtos</a>
+        <a th:href="@{/movimentacoes}">Movimentações</a>
+        <a th:href="@{/historico}">Histórico</a>
+    </nav>
+</header>
+<main class="container">
+    <section class="hero">
+        <div>
+            <span class="eyebrow">PI — Etapa 9</span>
+            <h1>Visão geral do estoque</h1>
+            <p>Front-end integrado ao Spring MVC, regras de negócio reutilizadas e persistência JPA/H2.</p>
+        </div>
+        <a class="button primary" th:href="@{/produtos}">Cadastrar produto</a>
+    </section>
+
+    <div th:if="${sucesso}" class="alert success" th:text="${sucesso}"></div>
+    <div th:if="${erro}" class="alert error" th:text="${erro}"></div>
+
+    <section class="metrics">
+        <article class="metric-card"><span>Produtos</span><strong th:text="${quantidadeProdutos}">0</strong></article>
+        <article class="metric-card"><span>Unidades</span><strong th:text="${unidadesEmEstoque}">0</strong></article>
+        <article class="metric-card"><span>Valor total</span><strong th:text="${#numbers.formatCurrency(valorTotal)}">R$ 0,00</strong></article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <div><span class="eyebrow">Atividade recente</span><h2>Últimas movimentações</h2></div>
+            <a class="text-link" th:href="@{/historico}">Ver histórico completo</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Data</th><th>SKU</th><th>Tipo</th><th>Quantidade</th></tr></thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(movimentacoesRecentes)}"><td colspan="4" class="empty">Nenhuma movimentação registrada.</td></tr>
+                <tr th:each="m : ${movimentacoesRecentes}">
+                    <td th:text="${#temporals.format(m.dataHora, 'dd/MM/yyyy HH:mm')}">08/08/2026 15:00</td>
+                    <td><a th:href="@{/produto/{sku}(sku=${m.sku})}" th:text="${m.sku}">TEC-001</a></td>
+                    <td><span class="badge" th:classappend="${m.tipo.name() == 'ENTRADA'} ? ' incoming' : ' outgoing'" th:text="${m.tipo}">ENTRADA</span></td>
+                    <td th:text="${m.quantidade}">10</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<footer class="footer">Sistema de Controle de Estoque — Projeto Integrador</footer>
+<script th:src="@{/js/storage.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+</body>
+</html>

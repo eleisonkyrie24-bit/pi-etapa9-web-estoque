@@ -1,0 +1,3 @@
+.hero,.page-heading { display:flex; justify-content:space-between; align-items:end; gap:26px; margin-bottom:28px; }.hero p,.page-heading p { color:var(--muted); max-width:720px; margin-bottom:0; line-height:1.6; }
+.metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:0 0 24px; }.metrics.compact { margin-top:-6px; }.two-columns { display:grid; grid-template-columns:minmax(300px,.8fr) minmax(0,1.6fr); gap:20px; align-items:start; }.narrow { max-width:680px; }.panel + .panel { margin-top:20px; }.two-columns .panel + .panel { margin-top:0; }
+@media (max-width:850px){ .metrics,.two-columns{grid-template-columns:1fr}.hero,.page-heading{align-items:flex-start;flex-direction:column}.two-columns .panel + .panel{margin-top:0} }

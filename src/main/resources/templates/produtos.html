@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos | Controle de Estoque</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}"><link rel="stylesheet" th:href="@{/css/components.css}"><link rel="stylesheet" th:href="@{/css/pages.css}">
+</head>
+<body data-page="produtos">
+<header class="topbar"><a class="brand" th:href="@{/}">Controle de Estoque</a><nav class="nav"><a th:href="@{/}">Início</a><a class="active" th:href="@{/produtos}">Produtos</a><a th:href="@{/movimentacoes}">Movimentações</a><a th:href="@{/historico}">Histórico</a></nav></header>
+<main class="container">
+    <section class="page-heading"><div><span class="eyebrow">RF01–RF05 / RF11</span><h1>Produtos</h1><p>Cadastre, consulte e mantenha os itens do estoque.</p></div></section>
+    <div th:if="${sucesso}" class="alert success" th:text="${sucesso}"></div><div th:if="${erro}" class="alert error" th:text="${erro}"></div>
+    <section class="two-columns">
+        <article class="panel">
+            <div class="panel-heading"><div><span class="eyebrow">Novo item</span><h2>Cadastrar produto</h2></div></div>
+            <form class="form-grid" th:action="@{/produtos}" method="post" data-validate="produto">
+                <label>SKU<input name="sku" maxlength="50" required placeholder="TEC-001" data-uppercase></label>
+                <label>Nome<input name="nome" maxlength="150" required placeholder="Teclado mecânico"></label>
+                <label>Preço (R$)<input name="preco" type="number" min="0.01" step="0.01" required placeholder="250.00"></label>
+                <button class="button primary" type="submit">Cadastrar</button>
+            </form>
+        </article>
+        <article class="panel">
+            <div class="panel-heading"><div><span class="eyebrow">Consulta</span><h2>Produtos cadastrados</h2></div></div>
+            <form class="search-row" th:action="@{/produtos}" method="get"><input id="busca-produto" name="q" th:value="${q}" placeholder="Buscar por SKU ou nome"><button class="button secondary" type="submit">Buscar</button></form>
+            <div class="table-wrap"><table id="tabela-produtos"><thead><tr><th>SKU</th><th>Nome</th><th>Preço</th><th>Saldo</th><th></th></tr></thead><tbody>
+            <tr th:if="${#lists.isEmpty(produtos)}"><td colspan="5" class="empty">Nenhum produto encontrado.</td></tr>
+            <tr th:each="p : ${produtos}"><td th:text="${p.sku}">TEC-001</td><td th:text="${p.nome}">Teclado</td><td th:text="${#numbers.formatCurrency(p.preco)}">R$ 250,00</td><td th:text="${p.quantidadeEmEstoque}">0</td><td><a class="text-link" th:href="@{/produto/{sku}(sku=${p.sku})}">Detalhes</a></td></tr>
+            </tbody></table></div>
+        </article>
+    </section>
+</main>
+<footer class="footer">Persistência: Spring Data JPA + H2</footer>
+<script th:src="@{/js/storage.js}"></script><script th:src="@{/js/common.js}"></script><script th:src="@{/js/produtos.js}"></script>
+</body></html>

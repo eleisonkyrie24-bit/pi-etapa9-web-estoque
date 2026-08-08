@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Movimentações | Controle de Estoque</title><link rel="stylesheet" th:href="@{/css/base.css}"><link rel="stylesheet" th:href="@{/css/components.css}"><link rel="stylesheet" th:href="@{/css/pages.css}"></head>
+<body data-page="movimentacoes"><header class="topbar"><a class="brand" th:href="@{/}">Controle de Estoque</a><nav class="nav"><a th:href="@{/}">Início</a><a th:href="@{/produtos}">Produtos</a><a class="active" th:href="@{/movimentacoes}">Movimentações</a><a th:href="@{/historico}">Histórico</a></nav></header>
+<main class="container"><section class="page-heading"><div><span class="eyebrow">RF06–RF08</span><h1>Entrada e saída</h1><p>Registre movimentações preservando as regras de saldo do domínio.</p></div></section>
+<div th:if="${sucesso}" class="alert success" th:text="${sucesso}"></div><div th:if="${erro}" class="alert error" th:text="${erro}"></div>
+<section class="panel narrow"><div class="panel-heading"><div><span class="eyebrow">Nova movimentação</span><h2>Registrar operação</h2></div></div>
+<form class="form-grid" th:action="@{/movimentacoes}" method="post" data-validate="movimentacao">
+<label>Produto<select name="sku" required><option value="">Selecione...</option><option th:each="p : ${produtos}" th:value="${p.sku}" th:text="${p.sku + ' — ' + p.nome + ' (saldo: ' + p.quantidadeEmEstoque + ')'}">TEC-001</option></select></label>
+<label>Tipo<select name="tipo" id="tipo-movimentacao" required><option value="ENTRADA">Entrada</option><option value="SAIDA">Saída</option></select></label>
+<label>Quantidade<input name="quantidade" type="number" min="1" step="1" required value="1"></label>
+<button class="button primary" type="submit">Registrar movimentação</button></form></section></main>
+<footer class="footer">Operações válidas são persistidas também no histórico.</footer><script th:src="@{/js/storage.js}"></script><script th:src="@{/js/common.js}"></script><script th:src="@{/js/movimentacoes.js}"></script></body></html>

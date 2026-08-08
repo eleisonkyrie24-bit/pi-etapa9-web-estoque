@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Histórico | Controle de Estoque</title><link rel="stylesheet" th:href="@{/css/base.css}"><link rel="stylesheet" th:href="@{/css/components.css}"><link rel="stylesheet" th:href="@{/css/pages.css}"></head>
+<body data-page="historico"><header class="topbar"><a class="brand" th:href="@{/}">Controle de Estoque</a><nav class="nav"><a th:href="@{/}">Início</a><a th:href="@{/produtos}">Produtos</a><a th:href="@{/movimentacoes}">Movimentações</a><a class="active" th:href="@{/historico}">Histórico</a></nav></header>
+<main class="container"><section class="page-heading"><div><span class="eyebrow">RF09</span><h1>Histórico de movimentações</h1><p>Consulte todas as operações ou filtre por SKU.</p></div></section>
+<section class="panel"><form class="search-row" th:action="@{/historico}" method="get"><input id="filtro-sku" name="sku" th:value="${sku}" placeholder="SKU (vazio = todos)" data-uppercase><button class="button secondary" type="submit">Filtrar</button><a class="button ghost" th:href="@{/historico}">Limpar</a></form>
+<div class="table-wrap"><table id="tabela-historico"><thead><tr><th>Data/hora</th><th>SKU</th><th>Tipo</th><th>Quantidade</th></tr></thead><tbody>
+<tr th:if="${#lists.isEmpty(movimentacoes)}"><td colspan="4" class="empty">Nenhuma movimentação encontrada.</td></tr>
+<tr th:each="m : ${movimentacoes}"><td th:text="${#temporals.format(m.dataHora, 'dd/MM/yyyy HH:mm:ss')}">08/08/2026</td><td><a th:href="@{/produto/{sku}(sku=${m.sku})}" th:text="${m.sku}">TEC-001</a></td><td><span class="badge" th:classappend="${m.tipo.name() == 'ENTRADA'} ? ' incoming' : ' outgoing'" th:text="${m.tipo}">ENTRADA</span></td><td th:text="${m.quantidade}">10</td></tr>
+</tbody></table></div></section></main><footer class="footer">Histórico persistente por JPA/H2.</footer><script th:src="@{/js/storage.js}"></script><script th:src="@{/js/common.js}"></script><script th:src="@{/js/historico.js}"></script></body></html>
