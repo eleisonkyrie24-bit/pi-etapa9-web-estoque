@@ -54,6 +54,8 @@ A aplicação usa JPA/Hibernate com H2 persistente em `./data/estoque`. Em teste
 ```bash
 mvn clean test
 mvn spring-boot:run
+# em outro terminal, com a aplicação ativa:
+./scripts/e2e-http.sh
 ```
 
 Acesse `http://localhost:8080`.
@@ -62,6 +64,6 @@ No NetBeans: **File > Open Project**, selecione esta pasta Maven e execute **Run
 
 ## Testes
 
-A suíte final possui 16 testes: 9 herdados/adaptados da Etapa 7 e 7 testes de integração da Etapa 9 (JPA e Web MVC). A validação remota em Java 17 concluiu com `Tests run: 16, Failures: 0, Errors: 0, Skipped: 0` e `BUILD SUCCESS`.
+A suíte final possui 16 testes JUnit: 9 herdados/adaptados da Etapa 7 e 7 testes de integração da Etapa 9 (JPA e Web MVC). O roteiro `scripts/e2e-http.sh` complementa a suíte executando a aplicação real por HTTP e cobre, em conjunto com JUnit/JPA/MVC, os 28 casos CT01–CT28 planejados na Etapa 7. O workflow do projeto executa ambos. A validação remota em Java 17 confirmou `Tests run: 16, Failures: 0, Errors: 0, Skipped: 0`, `BUILD SUCCESS` e fluxo HTTP ponta a ponta aprovado.
 
 Consulte `docs/RELATORIO_TECNICO_ETAPA9.md` e `docs/PLANO_TESTES_EXECUTADO_ETAPA9.md`.
